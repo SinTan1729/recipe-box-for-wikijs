@@ -1,12 +1,7 @@
 #!/usr/bin/env python
 
-""" Scrape a recipe, convert it to Markdown and store it in a Zettelkasten.
+# Scrape a recipe, convert it to Markdown and store it in Wiki.js
 
-    A free recipe-box.
-
-    1. https://obsidian.md/
-    2. https://www.ourstate.com/a-kitchens-riches/
-"""
 import argparse
 import json
 import os
@@ -90,9 +85,9 @@ def process_recipe(config, scraper, url, verbose=False):
     """ Process the recipe at a given URL.
     """
     recipe_box = ensure_directory_exists(config['recipe_box'])
-    media = ensure_directory_exists(os.path.join(config['recipe_box'], 'media'))
+    media = ensure_directory_exists(os.path.join(config['recipe_box'], 'images'))
 
-    prefix = scraper.title().lower()
+    prefix = scraper.title().replace(' ', '-').lower()
     path = os.path.join(recipe_box, prefix + '.md')
     path = valid_filename(path)
     recipe = open(path, 'w')
@@ -113,6 +108,8 @@ def process_recipe(config, scraper, url, verbose=False):
         if verbose:
             print('Saving {url} -> {path}'.format(url=image_url, path=filepath))
 
+    # Make sure to upload the image file inside /images/recipe with the proper name or edit the following
+    # lines to suit your needs.
     if filename:
         recipe.write('![{filename}]("/images/recipe/{filename}")\n'.format(filename=filename))
     recipe.write('\n')
