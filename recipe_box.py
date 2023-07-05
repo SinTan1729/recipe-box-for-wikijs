@@ -113,20 +113,16 @@ def process_recipe(config, scraper, url, verbose=False):
         if verbose:
             print('Saving {url} -> {path}'.format(url=image_url, path=filepath))
 
-    recipe.write('# {title}\n'.format(title=scraper.title()))
     if filename:
-        recipe.write('![[{filename}]]\n'.format(filename=filename))
+        recipe.write('![{filename}]("/images/recipe/{filename}")\n'.format(filename=filename))
     recipe.write('\n')
-    # This is a placeholder for the user's own notes about the recipe.
-    recipe.write('## Notes\n')
-    recipe.write('\n')
-    recipe.write('## Metadata\n')
+    recipe.write('## Information\n')
     recipe.write('Yields: {yields}\n'.format(yields=scraper.yields()))
     recipe.write('Total Time: {total_time}\n'.format(total_time=scraper.total_time()))
     recipe.write('\n')
     recipe.write('## Ingredients\n')
     for ingredient in scraper.ingredients():
-        recipe.write('* {ingredient}\n'.format(ingredient=ingredient))
+        recipe.write('1. {ingredient}\n'.format(ingredient=ingredient))
 
     recipe.write('\n')
     recipe.write('## Instructions\n')
@@ -138,7 +134,7 @@ def process_recipe(config, scraper, url, verbose=False):
             else:
                 recipe.write('1. {instruction}\n'.format(instruction=instruction))
 
-    recipe.write('\n')
+    recipe.write('\n#### URL\n')
     recipe.write('[{url}]({url})\n'.format(url=url))
     recipe.close()
     # if verbose:
