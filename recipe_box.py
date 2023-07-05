@@ -115,7 +115,7 @@ def process_recipe(config, scraper, url, verbose=False):
     recipe.write('\n')
     recipe.write('## Information\n')
     recipe.write('Yields: {yields}\n'.format(yields=scraper.yields()))
-    recipe.write('Total Time: {total_time}\n'.format(total_time=scraper.total_time()))
+    recipe.write('Total Time: {total_time} minutes\n'.format(total_time=scraper.total_time()))
     recipe.write('\n')
     recipe.write('## Ingredients\n')
     for ingredient in scraper.ingredients():
