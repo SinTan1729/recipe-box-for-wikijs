@@ -10,3 +10,6 @@
 /*.egg
 
 /__pycache__/
+
+# Ingore .venv
+.venv
