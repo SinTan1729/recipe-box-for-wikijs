@@ -111,7 +111,7 @@ def process_recipe(config, scraper, url, verbose=False):
     # Make sure to upload the image file inside /images/recipe with the proper name or edit the following
     # lines to suit your needs.
     if filename:
-        recipe.write('![{filename}]("/images/recipe/{filename}")\n'.format(filename=filename))
+        recipe.write('![{filename}](/images/recipe/{filename})\n'.format(filename=filename))
     recipe.write('\n')
     recipe.write('## Information\n')
     recipe.write('Yields: {yields}\n'.format(yields=scraper.yields()))
