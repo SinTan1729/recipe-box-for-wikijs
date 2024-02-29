@@ -36,14 +36,14 @@ def ensure_directory_exists(path, expand_user=True, file=False):
     if not os.path.exists(directory) and directory:
         try:
             os.makedirs(directory)
-        except OSError as e:
+        except OSError:
             # A parallel process created the directory after the existence check.
             pass
 
     return path
 
 
-def valid_filename(directory, filename=None, ascii=False):
+def valid_filename(directory, filename=None):
     """ Return a valid "new" filename in a directory, given a filename/directory=path to test.
 
         Deal with duplicate filenames.
@@ -60,11 +60,6 @@ def valid_filename(directory, filename=None, ascii=False):
     if filename is None:
         filename = os.path.basename(directory)
         directory = os.path.dirname(directory)
-
-    # if ascii:
-    #     filename = unidecode(unicode(filename))
-    #     filename = ' '.join(filename.splitlines()).strip()
-    #     filename = filename.decode('ascii', 'ignore')
 
     # Allow for directories.
     items = set(os.listdir(directory))
