@@ -14,7 +14,7 @@ except ImportError:
     import requests
     url_getter = requests
 
-from recipe_scrapers import scrape_me, WebsiteNotImplementedError, SCRAPERS
+from recipe_scrapers import scrape_html, WebsiteNotImplementedError, SCRAPERS
 
 
 ROOT = '~/.config/recipe_box/'
@@ -163,7 +163,7 @@ def main():
     for url in args.url:
         if url:
             try:
-                scraper = scrape_me(url, wild_mode=wild_mode)
+                scraper = scrape_html(html=None, org_url=url, wild_mode=wild_mode, online=True)
             except WebsiteNotImplementedError:
                 print('No scraper defined for {url}'.format(url=url))
                 print('Try using the -w [wild-mode] option, your mileage may vary.')
