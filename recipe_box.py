@@ -62,10 +62,8 @@ def valid_filename(directory, filename=None):
         directory = os.path.dirname(directory)
 
     # Allow for directories.
-    try:
-        items = os.listdir(directory)
-    except:
-        items = []
+    ensure_directory_exists(directory)
+    items = os.listdir(directory)
 
     if filename in items:
         count = 1
