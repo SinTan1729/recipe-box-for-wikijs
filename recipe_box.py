@@ -86,10 +86,10 @@ def process_recipe(config, scraper, url, verbose=False):
     recipe_box = ensure_directory_exists(config['recipe_box'])
     media = ensure_directory_exists(os.path.join(config['recipe_box'], 'images'))
 
-    prefix = scraper.title().replace(' ', '-').lower()
+    prefix = scraper.title().strip().replace(' ', '-').lower()
     path = os.path.join(recipe_box, prefix + '.md')
     path = valid_filename(path)
-    recipe = open(path, 'w')
+    recipe = open(path, 'w+')
 
     try:
         image_url = scraper.image()
@@ -101,7 +101,7 @@ def process_recipe(config, scraper, url, verbose=False):
         # Also, os.path.splitext(url), probably not a good idea. ;)
         filename = os.path.splitext(os.path.basename(path))[0] + os.path.splitext(scraper.image())[1]
         filepath = os.path.join(media, filename)
-        image = open(filepath, 'wb')
+        image = open(filepath, 'wb+')
         image.write(response.content)
         image.close()
         if verbose:
