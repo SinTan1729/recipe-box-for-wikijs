@@ -1,5 +1,5 @@
 [project]
-name = "recipe-box-for-wikijs"
+name = "recipe-box"
 authors = [{ name = "Sayantan Santra", email = "sayantan.santra689@gmail.com" }]
 license = "MIT"
 classifiers = ["Programming Language :: Python :: 3"]
