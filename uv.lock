@@ -622,7 +622,7 @@ wheels = [
 ]
 
 [[package]]
-name = "recipe-box"
+name = "recipe-box-for-wikijs"
 version = "1.0.0"
 source = { virtual = "." }
 dependencies = [
