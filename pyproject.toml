@@ -9,3 +9,6 @@ readme = "README.md"
 keywords = ["recipe", "food", "recipe-box"]
 requires-python = ">=3.8"
 dependencies = ["recipe-scrapers", "requests", "httpx[http2]"]
+
+[project.scripts]
+recipe_box = "recipe_box"
