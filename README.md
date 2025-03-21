@@ -5,7 +5,7 @@ directly output files suitable for my Wiki.js instance.
 
 ## Installation
 ```bash
-pipx install git+https://github.com/SinTan1729/recipe-box-for-wikijs
+uv tool install git+https://github.com/SinTan1729/recipe-box-for-wikijs
 ```
 
 ## Usage
