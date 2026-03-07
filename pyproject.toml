@@ -8,7 +8,7 @@ description = "Download recipes into a (repurposed Zettelkasten) recipe box"
 readme = "README.md"
 keywords = ["recipe", "food", "recipe-box"]
 requires-python = ">=3.8"
-dependencies = ["recipe-scrapers", "requests", "httpx[http2]"]
+dependencies = ["recipe-scrapers", "requests", "httpx[http2]", "truststore"]
 
 [project.scripts]
 recipe_box = "recipe_box:main"
