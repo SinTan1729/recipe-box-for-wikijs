@@ -88,6 +88,7 @@ def process_recipe(config, scraper, url, verbose=False):
     media = ensure_directory_exists(os.path.join(config["recipe_box"], "images"))
 
     prefix = scraper.title().strip().replace(" ", "-").lower()
+    prefix = prefix.removesuffix("-recipe")
     path = os.path.join(recipe_box, prefix + ".md")
     path = valid_filename(path)
     recipe = open(path, "w+")
@@ -149,7 +150,7 @@ def process_recipe(config, scraper, url, verbose=False):
     )
     if answer == "y":
         upload_image_to_wiki(config, image_path)
-        create_markdown_page_in_wiki(config, Path(path), scraper.title())
+        create_markdown_page_in_wiki(config, Path(path), scraper.title().removesuffix(" recipe"))
     else:
         print("Not uploading.")
 
