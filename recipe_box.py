@@ -73,16 +73,13 @@ def valid_filename(directory, filename=None):
     items = os.listdir(directory)
 
     if filename in items:
-        count = 1
-        while test_filename(filename, count) in items:
-            count += 1
-        if return_path:
-            return os.path.join(directory, test_filename(filename, count))
-        return test_filename(filename, count)
-    else:
-        if return_path:
-            return os.path.join(directory, filename)
-        return filename
+        answer = input("File already exists. Do you want to overwrite? [y/N]: ").strip().lower()
+        if answer != "y":
+            exit(2)
+
+    if return_path:
+        return os.path.join(directory, filename)
+    return filename
 
 
 def process_recipe(config, scraper, url, verbose=False):
@@ -145,7 +142,7 @@ def process_recipe(config, scraper, url, verbose=False):
     print("Saving {url} -> {path}".format(url=url, path=path))
     answer = (
         input(
-            "Please take a look at the files generated. Do you want to upload these to WikiJS? (y/N): "
+            "Please take a look at the files generated. Do you want to upload these to WikiJS? [y/N]: "
         )
         .strip()
         .lower()
@@ -163,7 +160,7 @@ def upload_image_to_wiki(config, image_path):
         files = (
             (
                 "mediaUpload",
-                (None, '{"folderId":2}'),
+                (None, f'{{"folderId":{config["folder_id"]}}}'),
             ),
             (
                 "mediaUpload",
@@ -237,7 +234,9 @@ def create_markdown_page_in_wiki(config, markdown_path, page_title):
     else:
         id = res.json()["data"]["pages"]["create"]["page"]["id"]
         page_path = res.json()["data"]["pages"]["create"]["page"]["path"]
-        print(f"Page created with ID: {id} at path {page_path}.")
+        print(
+            f"Page created with ID {id} at the following path.\n  {config['wiki_url']}/en/{page_path}"
+        )
 
 
 def main():
