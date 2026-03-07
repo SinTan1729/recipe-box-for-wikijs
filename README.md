@@ -4,19 +4,36 @@ This is a fork of [lcordier/recipe_box](https://github.com/lcordier/recipe_box) 
 directly output files suitable for my Wiki.js instance.
 
 ## Installation
+
 ```bash
 uv tool install git+https://github.com/SinTan1729/recipe-box-for-wikijs
 ```
 
 ## Usage
+
 ```bash
 recipe_box [options] <list-of-links>
 ```
+
 Available options:
+
 ```bash
 -l : List all available sites
 -w : Enable wild mode. This tries to scrape from unsupported sites.
 -v : More verbose output.
 ```
 
-For more information, please take a look at the upstream.
+## Config
+
+The config file is read from `.config/recipe_box/recipe_box.json`. Here's an example config file.
+
+```json
+{
+  "recipe_box": "~/Documents/recipe_box",
+  "wiki_url": "https://wiki.example.com",
+  "wiki_api_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "custom_css_file": "~/.config/recipe_box/custom.css",
+  "tags": ["public", "cooking", "food", "recipe"],
+  "folder_id": 2
+}
+```
