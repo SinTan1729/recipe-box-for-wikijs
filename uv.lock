@@ -397,7 +397,7 @@ wheels = [
 
 [[package]]
 name = "recipe-box-for-wikijs"
-version = "1.2.2"
+version = "1.2.3"
 source = { editable = "." }
 dependencies = [
     { name = "httpx", extra = ["http2"] },
@@ -408,10 +408,10 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "httpx", extras = ["http2"] },
-    { name = "recipe-scrapers" },
-    { name = "requests" },
-    { name = "truststore" },
+    { name = "httpx", extras = ["http2"], specifier = ">=0.28.1" },
+    { name = "recipe-scrapers", specifier = ">=15.6.0" },
+    { name = "requests", specifier = ">=2.32.3" },
+    { name = "truststore", specifier = ">=0.10.4" },
 ]
 
 [[package]]
