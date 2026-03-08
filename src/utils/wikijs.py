@@ -61,17 +61,27 @@ def create_markdown_page_in_wiki(config, markdown_path, page_title):
       }
     }
     """
-    with open(Path(config["custom_css_file"]).expanduser(), "r") as c:
-        payload = {
-            "query": create_mutation,
-            "variables": {
-                "content": markdown_content,
-                "path": f"/recipes/{markdown_path.stem}",
-                "title": page_title,
-                "tags": config["tags"],
-                "css": c.read(),
-            },
-        }
+    custom_css = ""
+    try:
+        custom_css_file = Path(config["custom_css_file"]).expanduser()
+        with custom_css_file.open("r") as f:
+            custom_css = f.read()
+    except (KeyError, TypeError):
+        pass
+    except (FileNotFoundError, PermissionError, IsADirectoryError, OSError, UnicodeDecodeError):
+        print("Could not read the custom CSS file.")
+        exit(2)
+
+    payload = {
+        "query": create_mutation,
+        "variables": {
+            "content": markdown_content,
+            "path": f"/recipes/{markdown_path.stem}",
+            "title": page_title,
+            "tags": config["tags"],
+            "css": custom_css,
+        },
+    }
 
     res = requests.post(
         f"{config['wiki_url']}/graphql",
