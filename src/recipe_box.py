@@ -65,9 +65,6 @@ def main():
                 print(
                     "https://github.com/hhursev/recipe-scrapers#if-you-want-a-scraper-for-a-new-site-added"
                 )
-                print("")
-                print("Once someone has added the new scraper:")
-                print("pip install --upgrade recipe-scrapers")
             else:
                 process_recipe(config, scraper, url, verbose)
 
