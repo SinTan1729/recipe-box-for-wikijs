@@ -8,7 +8,14 @@ description = "Download recipes into a (repurposed Zettelkasten) recipe box"
 readme = "README.md"
 keywords = ["recipe", "food", "recipe-box"]
 requires-python = ">=3.10"
-dependencies = ["recipe-scrapers>=15.6.0", "requests>=2.32.3", "httpx[http2]>=0.28.1", "truststore>=0.10.4"]
+dependencies = [
+    "recipe-scrapers>=15.6.0",
+    "requests>=2.32.3",
+    "httpx[http2]>=0.28.1",
+    "truststore>=0.10.4",
+    "dependency>=0.0.3",
+    "prompt-toolkit>=3.0.52",
+]
 
 [build-system]
 requires = ["hatchling"]

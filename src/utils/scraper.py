@@ -1,6 +1,7 @@
 import os
 import httpx
 from pathlib import Path
+from prompt_toolkit import prompt
 
 from utils.fileio import (
     valid_filename,
@@ -17,7 +18,10 @@ def process_recipe(config, scraper, url, verbose=False):
     recipe_box = ensure_directory_exists(config["recipe_box"])
     media = ensure_directory_exists(os.path.join(config["recipe_box"], "images"))
 
-    prefix = scraper.title().strip().replace(" ", "-").lower()
+    print("Make any changes to the detected title if you want and press enter.")
+    title = prompt("Title: ", default=scraper.title())
+
+    prefix = title.strip().replace(" ", "-").lower()
     prefix = prefix.removesuffix("-recipe")
     path = os.path.join(recipe_box, prefix + ".md")
     path = valid_filename(path)
@@ -81,6 +85,6 @@ def process_recipe(config, scraper, url, verbose=False):
     )
     if answer == "y":
         upload_image_to_wiki(config, image_path)
-        create_markdown_page_in_wiki(config, Path(path), scraper.title().removesuffix(" recipe"))
+        create_markdown_page_in_wiki(config, Path(path), title.removesuffix(" recipe"))
     else:
         print("Not uploading.")
