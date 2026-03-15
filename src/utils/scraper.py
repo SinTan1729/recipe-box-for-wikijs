@@ -1,6 +1,7 @@
 import os
 import httpx
 from pathlib import Path
+import re
 from prompt_toolkit import prompt
 
 from utils.fileio import (
@@ -19,10 +20,15 @@ def process_recipe(config, scraper, url, verbose=False):
     media = ensure_directory_exists(os.path.join(config["recipe_box"], "images"))
 
     print("Make any changes to the detected title if you want and press enter.")
-    title = prompt("Title: ", default=scraper.title())
+    cleaned_title = re.sub(
+        r"[\s\-:|]*recipe(?:\s+(?:ideas?|video|videos|tutorial|tutorials))?\b\s*$",
+        "",
+        scraper.title(),
+        flags=re.I,
+    )
+    title = prompt("Title: ", default=cleaned_title)
 
     prefix = title.strip().replace(" ", "-").lower()
-    prefix = prefix.removesuffix("-recipe")
     path = os.path.join(recipe_box, prefix + ".md")
     path = valid_filename(path)
     recipe = open(path, "w+")
@@ -73,6 +79,7 @@ def process_recipe(config, scraper, url, verbose=False):
 
     recipe.write("\n#### URL\n")
     recipe.write("[{url}]({url})\n".format(url=url))
+
     recipe.close()
     # if verbose:
     print("Saving {url} -> {path}".format(url=url, path=path))
