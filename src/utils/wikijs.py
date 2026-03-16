@@ -9,11 +9,12 @@ truststore.inject_into_ssl()
 def upload_image_to_wiki(config, image_path):
     """Upload the image to WikiJS."""
     headers = {"Authorization": f"Bearer {config['wiki_api_key']}"}
+    folder_id = resolve_asset_dir(config)
     with open(image_path, "rb") as f:
         files = (
             (
                 "mediaUpload",
-                (None, f'{{"folderId":{config["folder_id"]}}}'),
+                (None, f'{{"folderId":{folder_id}}}'),
             ),
             (
                 "mediaUpload",
@@ -26,7 +27,9 @@ def upload_image_to_wiki(config, image_path):
         )
         upload = requests.post(f"{config['wiki_url']}/u", headers=headers, files=files)
         upload.raise_for_status()
-        print("Image uploaded.")
+        print(
+            f"Image uploaded at the following path: \n  {config['wiki_url']}{config['image_dir_path']}/{image_path.name}."
+        )
 
 
 def create_markdown_page_in_wiki(config, markdown_path, page_title):
@@ -101,3 +104,39 @@ def create_markdown_page_in_wiki(config, markdown_path, page_title):
         print(
             f"Page created with ID {id} at the following path.\n  {config['wiki_url']}/en/{page_path}"
         )
+
+
+def resolve_asset_dir(config):
+    asset_query = """
+    query($parent: Int!) {
+      assets {
+        folders(parentFolderId: $parent) {
+          id
+          name
+        }
+      }
+    }
+    """
+    parent = 0
+
+    for part in config["image_dir_path"].strip("/").split("/"):
+        payload = ({"query": asset_query, "variables": {"parent": parent}},)
+        res = requests.post(
+            f"{config['wiki_url']}/graphql",
+            headers={
+                "Authorization": f"Bearer {config['wiki_api_key']}",
+                "Content-Type": "application/json",
+            },
+            json=payload,
+        )
+        res.raise_for_status()
+        try:
+            parent = next(
+                dir["id"]
+                for item in res.json()
+                for dir in item["data"]["assets"]["folders"]
+                if dir["name"] == part
+            )
+        except StopIteration:
+            raise SystemExit(f"dir not found: {part}")
+    return parent

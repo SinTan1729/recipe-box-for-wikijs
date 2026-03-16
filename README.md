@@ -34,6 +34,6 @@ The config file is read from `.config/recipe_box/recipe_box.json`. Here's an exa
   "wiki_api_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "custom_css_file": "~/.config/recipe_box/custom.css",
   "tags": ["public", "cooking", "food", "recipe"],
-  "folder_id": 2
+  "image_dir_path": "/images/recipe"
 }
 ```
