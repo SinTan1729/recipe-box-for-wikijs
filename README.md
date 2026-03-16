@@ -1,7 +1,7 @@
 # Recipe Box
 
 This is a fork of [lcordier/recipe_box](https://github.com/lcordier/recipe_box) modified to
-directly output files suitable for my Wiki.js instance.
+directly upload files to my Wiki.js instance, and create recipe pages.
 
 ## Installation
 
@@ -37,3 +37,7 @@ The config file is read from `.config/recipe_box/recipe_box.json`. Here's an exa
   "image_dir_path": "/images/recipe"
 }
 ```
+
+## Acknowledgement
+
+- The [`recipe-scrapers`](https://github.com/hhursev/recipe-scrapers) project, without which this project would not exist.
