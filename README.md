@@ -6,7 +6,7 @@ directly upload files to my Wiki.js instance, and create recipe pages.
 ## Installation
 
 ```bash
-uv tool install git+https://github.com/SinTan1729/recipe-box-for-wikijs
+uv tool install recipe-box-for-wikijs
 ```
 
 ## Usage
