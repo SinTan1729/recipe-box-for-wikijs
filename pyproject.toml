@@ -3,8 +3,8 @@ name = "recipe-box-for-wikijs"
 authors = [{ name = "Sayantan Santra", email = "sayantan.santra689@gmail.com" }]
 license = "MIT"
 classifiers = ["Programming Language :: Python :: 3"]
-version = "1.4.2"
-description = "Download recipes into a (repurposed Zettelkasten) recipe box"
+version = "1.4.3"
+description = " Make WikiJS pages from recipes."
 readme = "README.md"
 keywords = ["recipe", "food", "recipe-box"]
 requires-python = ">=3.10"
