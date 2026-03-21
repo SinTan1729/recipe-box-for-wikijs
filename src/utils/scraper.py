@@ -14,7 +14,7 @@ from utils.wikijs import (
 )
 
 
-def process_recipe(config, scraper, url, verbose=False):
+def process_recipe(config, scraper, url, verbose=False) -> None:
     """Process the recipe at a given URL."""
     recipe_box = ensure_directory_exists(config["recipe_box"])
     media = ensure_directory_exists(os.path.join(config["recipe_box"], "images"))

@@ -6,7 +6,7 @@ from pathlib import Path
 truststore.inject_into_ssl()
 
 
-def upload_image_to_wiki(config, image_path):
+def upload_image_to_wiki(config, image_path) -> None:
     """Upload the image to WikiJS."""
     headers = {"Authorization": f"Bearer {config['wiki_api_key']}"}
     folder_id = resolve_asset_dir(config)
@@ -32,7 +32,7 @@ def upload_image_to_wiki(config, image_path):
         )
 
 
-def create_markdown_page_in_wiki(config, markdown_path, page_title):
+def create_markdown_page_in_wiki(config, markdown_path, page_title) -> None:
     """Upload the markdown as a page in WikiJS."""
     markdown_content = markdown_path.read_text(encoding="utf-8")
 
@@ -106,7 +106,7 @@ def create_markdown_page_in_wiki(config, markdown_path, page_title):
         )
 
 
-def resolve_asset_dir(config):
+def resolve_asset_dir(config) -> int:
     asset_query = """
     query($parent: Int!) {
       assets {

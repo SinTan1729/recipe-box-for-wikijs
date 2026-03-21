@@ -15,7 +15,7 @@ from utils.scraper import process_recipe
 ROOT = "~/.config/recipe_box/"
 
 
-def main():
+def main() -> None:
     """Console script entry point."""
     parser = argparse.ArgumentParser()
     parser.add_argument("url", metavar="URL", type=str, nargs="*", default="", help="recipe url")
