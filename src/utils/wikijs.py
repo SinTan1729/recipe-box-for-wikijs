@@ -21,14 +21,14 @@ def upload_image_to_wiki(config, image_path):
                 (
                     image_path.name,
                     f,
-                    mimetypes.guess_file_type(image_path)[0] or "application/octet-stream",
+                    mimetypes.guess_type(image_path)[0] or "application/octet-stream",
                 ),
             ),
         )
         upload = requests.post(f"{config['wiki_url']}/u", headers=headers, files=files)
         upload.raise_for_status()
         print(
-            f"Image uploaded at the following path: \n  {config['wiki_url']}{config['image_dir_path']}/{image_path.name}."
+            f"Image uploaded at the following path: \n  {config['wiki_url']}{config['image_dir_path']}/{image_path.name}"
         )
 
 

@@ -38,7 +38,7 @@ def process_recipe(config, scraper, url, verbose=False):
     try:
         image_url = scraper.image()
         response = url_getter.get(image_url)
-    except httpx.RequestException:
+    except httpx.RequestError:
         filename = None
     else:
         # Not sure about image urls without filename extensions, might need python-magic.
