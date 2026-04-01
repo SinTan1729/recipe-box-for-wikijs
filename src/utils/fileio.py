@@ -1,7 +1,7 @@
 import os
 
 
-def ensure_directory_exists(path, expand_user=True, file=False) -> str:
+def ensure_directory_exists(path: str, expand_user: bool = True, file: bool = False) -> str:
     """Create a directory if it doesn't exists.
 
     Expanding '~' to the user's home directory on POSIX systems.
@@ -24,13 +24,13 @@ def ensure_directory_exists(path, expand_user=True, file=False) -> str:
     return path
 
 
-def valid_filename(directory, filename=None) -> str:
+def valid_filename(directory: str, filename: str | None = None) -> str:
     """Return a valid "new" filename in a directory, given a filename/directory=path to test.
 
     Deal with duplicate filenames.
     """
 
-    def test_filename(filename, count):
+    def test_filename(filename: str, count: int):
         """Filename to test for existence."""
         fn, ext = os.path.splitext(filename)
         return fn + "({})".format(count) + ext

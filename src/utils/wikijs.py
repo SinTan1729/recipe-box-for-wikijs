@@ -1,3 +1,4 @@
+from requests.models import Response
 import requests
 import mimetypes
 import truststore
@@ -6,7 +7,7 @@ from pathlib import Path
 truststore.inject_into_ssl()
 
 
-def upload_image_to_wiki(config, image_path) -> None:
+def upload_image_to_wiki(config: dict[str, str], image_path: Path) -> None:
     """Upload the image to WikiJS."""
     headers = {"Authorization": f"Bearer {config['wiki_api_key']}"}
     folder_id = resolve_asset_dir(config)
@@ -25,14 +26,16 @@ def upload_image_to_wiki(config, image_path) -> None:
                 ),
             ),
         )
-        upload = requests.post(f"{config['wiki_url']}/u", headers=headers, files=files)
+        upload: Response = requests.post(f"{config['wiki_url']}/u", headers=headers, files=files)
         upload.raise_for_status()
         print(
             f"Image uploaded at the following path: \n  {config['wiki_url']}{config['image_dir_path']}/{image_path.name}"
         )
 
 
-def create_markdown_page_in_wiki(config, markdown_path, page_title) -> None:
+def create_markdown_page_in_wiki(
+    config: dict[str, str], markdown_path: Path, page_title: str
+) -> None:
     """Upload the markdown as a page in WikiJS."""
     markdown_content = markdown_path.read_text(encoding="utf-8")
 
@@ -86,7 +89,7 @@ def create_markdown_page_in_wiki(config, markdown_path, page_title) -> None:
         },
     }
 
-    res = requests.post(
+    res: Response = requests.post(
         f"{config['wiki_url']}/graphql",
         headers={
             "Authorization": f"Bearer {config['wiki_api_key']}",
@@ -95,18 +98,18 @@ def create_markdown_page_in_wiki(config, markdown_path, page_title) -> None:
         json=payload,
     )
     res.raise_for_status()
-    result = res.json()["data"]["pages"]["create"]["responseResult"]
+    result: dict = res.json()["data"]["pages"]["create"]["responseResult"]
     if not result["succeeded"]:
         print("Error: ", result["message"])
     else:
-        id = res.json()["data"]["pages"]["create"]["page"]["id"]
-        page_path = res.json()["data"]["pages"]["create"]["page"]["path"]
+        id: str = res.json()["data"]["pages"]["create"]["page"]["id"]
+        page_path: str = res.json()["data"]["pages"]["create"]["page"]["path"]
         print(
             f"Page created with ID {id} at the following path.\n  {config['wiki_url']}/en/{page_path}"
         )
 
 
-def resolve_asset_dir(config) -> int:
+def resolve_asset_dir(config: dict[str, str]) -> int:
     asset_query = """
     query($parent: Int!) {
       assets {
@@ -120,8 +123,8 @@ def resolve_asset_dir(config) -> int:
     parent = 0
 
     for part in config["image_dir_path"].strip("/").split("/"):
-        payload = ({"query": asset_query, "variables": {"parent": parent}},)
-        res = requests.post(
+        payload: dict = {"query": asset_query, "variables": {"parent": parent}}
+        res: Response = requests.post(
             f"{config['wiki_url']}/graphql",
             headers={
                 "Authorization": f"Bearer {config['wiki_api_key']}",
@@ -130,12 +133,10 @@ def resolve_asset_dir(config) -> int:
             json=payload,
         )
         res.raise_for_status()
+        data: dict = res.json()
         try:
-            parent = next(
-                dir["id"]
-                for item in res.json()
-                for dir in item["data"]["assets"]["folders"]
-                if dir["name"] == part
+            parent: str = next(
+                dir["id"] for dir in data["data"]["assets"]["folders"] if dir["name"] == part
             )
         except StopIteration:
             raise SystemExit(f"dir not found: {part}")

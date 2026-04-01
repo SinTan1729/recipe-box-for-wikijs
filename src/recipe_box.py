@@ -39,8 +39,8 @@ def main() -> None:
             print(host)
         sys.exit()
 
-    wild_mode = args.wild_mode
-    verbose = args.verbose
+    wild_mode: str = args.wild_mode
+    verbose: bool = args.verbose
 
     config_path = ensure_directory_exists(os.path.join(ROOT, "recipe_box.json"), file=True)
     if not os.path.exists(config_path):
@@ -49,7 +49,7 @@ def main() -> None:
             json.dump(config, f, indent=4)
     else:
         with open(config_path, "r") as f:
-            config = json.load(f)
+            config: dict[str, str] = json.load(f)
 
     for url in args.url:
         if url:

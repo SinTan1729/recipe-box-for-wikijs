@@ -1,3 +1,4 @@
+from recipe_scrapers import AbstractScraper
 import os
 import httpx
 from pathlib import Path
@@ -14,7 +15,9 @@ from utils.wikijs import (
 )
 
 
-def process_recipe(config, scraper, url, verbose=False) -> None:
+def process_recipe(
+    config: dict[str, str], scraper: AbstractScraper, url: str, verbose: bool = False
+) -> None:
     """Process the recipe at a given URL."""
     recipe_box = ensure_directory_exists(config["recipe_box"])
     media = ensure_directory_exists(os.path.join(config["recipe_box"], "images"))
@@ -36,7 +39,7 @@ def process_recipe(config, scraper, url, verbose=False) -> None:
     image_path = None
     url_getter = httpx.Client(http2=True)
     try:
-        image_url = scraper.image()
+        image_url: str = scraper.image()
         response = url_getter.get(image_url)
     except httpx.RequestError:
         filename = None
