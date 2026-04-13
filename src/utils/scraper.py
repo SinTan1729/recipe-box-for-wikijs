@@ -36,7 +36,6 @@ def process_recipe(
     path = valid_filename(path)
     recipe = open(path, "w+")
 
-    image_path = None
     url_getter = httpx.Client(http2=True)
     try:
         image_url: str = scraper.image()
