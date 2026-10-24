@@ -1,8 +1,10 @@
-from requests.models import Response
-import requests
 import mimetypes
-import truststore
+import sys
 from pathlib import Path
+
+import requests
+import truststore
+from requests.models import Response
 
 truststore.inject_into_ssl()
 
@@ -76,7 +78,7 @@ def create_markdown_page_in_wiki(
         pass
     except (FileNotFoundError, PermissionError, IsADirectoryError, OSError, UnicodeDecodeError):
         print("Could not read the custom CSS file.")
-        exit(2)
+        sys.exit(2)
 
     payload = {
         "query": create_mutation,
@@ -140,4 +142,4 @@ def resolve_asset_dir(config: dict[str, str]) -> int:
             )
         except StopIteration:
             raise SystemExit(f"dir not found: {part}")
-    return parent
+    return int(parent)

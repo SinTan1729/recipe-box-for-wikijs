@@ -6,11 +6,11 @@ import argparse
 import json
 import os
 import sys
-from recipe_scrapers import scrape_html, WebsiteNotImplementedError, SCRAPERS
+
+from recipe_scrapers import SCRAPERS, WebsiteNotImplementedError, scrape_html
 
 from utils.fileio import ensure_directory_exists
 from utils.scraper import process_recipe
-
 
 ROOT = "~/.config/recipe_box/"
 
@@ -39,7 +39,7 @@ def main() -> None:
             print(host)
         sys.exit()
 
-    wild_mode: str = args.wild_mode
+    wild_mode: bool = args.wild_mode
     verbose: bool = args.verbose
 
     config_path = ensure_directory_exists(os.path.join(ROOT, "recipe_box.json"), file=True)
@@ -56,9 +56,8 @@ def main() -> None:
             try:
                 scraper = scrape_html(html=None, org_url=url, wild_mode=wild_mode, online=True)
             except WebsiteNotImplementedError:
-                print("No scraper defined for {url}".format(url=url))
-                print("Try using the -w [wild-mode] option, your mileage may vary.")
-                print("")
+                print(f"No scraper defined for {url}")
+                print("Try using the -w [wild-mode] option, your mileage may vary.\n")
                 print(
                     "It is recommended you add it to recipe-scrapers site, that way everybody gains from the effort."
                 )

@@ -1,4 +1,5 @@
 import os
+import sys
 
 
 def ensure_directory_exists(path: str, expand_user: bool = True, file: bool = False) -> str:
@@ -33,7 +34,7 @@ def valid_filename(directory: str, filename: str | None = None) -> str:
     def test_filename(filename: str, count: int):
         """Filename to test for existence."""
         fn, ext = os.path.splitext(filename)
-        return fn + "({})".format(count) + ext
+        return fn + f"({count})" + ext
 
     return_path = filename is None
 
@@ -49,7 +50,7 @@ def valid_filename(directory: str, filename: str | None = None) -> str:
     if filename in items:
         answer = input("File already exists. Do you want to overwrite? [y/N]: ").strip().lower()
         if answer != "y":
-            exit(2)
+            sys.exit(2)
 
     if return_path:
         return os.path.join(directory, filename)
