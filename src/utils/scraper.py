@@ -32,8 +32,10 @@ def process_recipe(
     )
     title = prompt("Title: ", default=cleaned_title)
 
-    prefix = title.strip().replace(" ", "-").lower()
-    path = os.path.join(recipe_box, prefix + ".md")
+    recipe_name = title.strip().replace(" ", "-").lower()
+    while "--" in recipe_name:
+        recipe_name = recipe_name.replace("--", "-")
+    path = os.path.join(recipe_box, recipe_name + ".md")
     path = valid_filename(path)
     with open(path, "w+") as recipe:
         url_getter = httpx.Client(http2=True)
