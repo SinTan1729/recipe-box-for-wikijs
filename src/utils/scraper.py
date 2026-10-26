@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 
 import httpx
+from PIL import Image
 from prompt_toolkit import prompt
 from recipe_scrapers import AbstractScraper
 
@@ -43,24 +44,29 @@ def process_recipe(
             image_url: str = scraper.image()
             response = url_getter.get(image_url)
         except httpx.RequestError:
-            filename = None
+            original_image = None
         else:
             # Not sure about image urls without filename extensions, might need python-magic.
             # Also, os.path.splitext(url), probably not a good idea. ;)
-            filename = (
+            original_image = (
                 os.path.splitext(os.path.basename(path))[0] + os.path.splitext(scraper.image())[1]
             )
-            filepath = os.path.join(media, filename)
+            filepath = os.path.join(media, original_image)
             image_path = Path(filepath)
             with open(filepath, "wb+") as image:
                 image.write(response.content)
+            converted_img = os.path.splitext(image_path)[0] + ".webp"
+            Image.open(filepath).save(converted_img, "WEBP", quality=75, method=6)
+            os.remove(filepath)
+            image_path = Path(converted_img)
             if verbose:
-                print(f"Saving {image_url} -> {filepath}")
+                print(f"Saving {image_url} -> {converted_img}")
 
         # Make sure to upload the image file inside /images/recipe with the proper name or edit the following
         # lines to suit your needs.
-        if filename:
-            recipe.write(f"![{filename}](/images/recipe/{filename})\n")
+        if original_image:
+            basename = image_path.name
+            recipe.write(f"![{basename}](/images/recipe/{basename})\n")
         recipe.write("\n")
         recipe.write("## Information\n")
         recipe.write(f"Yields: {scraper.yields()}\n")

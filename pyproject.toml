@@ -7,7 +7,7 @@ version = "1.4.5"
 description = " Make WikiJS pages from recipes."
 readme = "README.md"
 keywords = ["recipe", "food", "recipe-box"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "recipe-scrapers>=15.11.0",
     "requests>=2.32.5",
@@ -15,6 +15,7 @@ dependencies = [
     "truststore>=0.10.4",
     "dependency>=0.0.3",
     "prompt-toolkit>=3.0.52",
+    "pillow>=13.0.0",
 ]
 
 [build-system]
