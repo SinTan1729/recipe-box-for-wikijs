@@ -458,7 +458,7 @@ wheels = [
 
 [[package]]
 name = "recipe-box-for-wikijs"
-version = "1.4.5"
+version = "1.5.0"
 source = { editable = "." }
 dependencies = [
     { name = "dependency" },
